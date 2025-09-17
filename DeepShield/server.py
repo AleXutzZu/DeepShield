@@ -1,10 +1,19 @@
 from fastapi import FastAPI, UploadFile
 import numpy as np
 import cv2
+from fastapi.middleware.cors import CORSMiddleware
 
 from mesonet import MesoNet
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["chrome-extension://<your-extension-id>"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load model (make sure you have pretrained weights in ./weights/mesonet.h5)
 model = MesoNet()
