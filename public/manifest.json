@@ -1,6 +1,6 @@
 {
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "DeepShield",
+  "description": "Detect possible deepfake content on the web",
   "version": "1.0",
   "manifest_version": 3,
   "action": {

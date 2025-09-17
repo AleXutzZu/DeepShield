@@ -5,13 +5,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
         if (!tab.id) return;
 
+        const responseEl = document.getElementById("response")!;
+
         // inject a script that runs in the page context
         await chrome.scripting.executeScript({
             target: {tabId: tab.id},
             func: () => {
                 const images = Array.from(document.querySelectorAll<HTMLImageElement>("img"));
 
-                async function sendImageToApi(imageUrl: string, apiEndpoint: string) {
+                async function sendImageToApi(imageUrl: string) {
                     try {
                         // Fetch the image as a blob
                         const response = await fetch(imageUrl);
@@ -32,8 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
 
                             const data = await response.json();
-                            console.log("Result:", data);
-                            return data;
+                            await chrome.runtime.sendMessage({type: "deepfakeResult", data});
+
                         } catch (err) {
                             console.error("Error calling backend:", err);
                         }
@@ -45,11 +47,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 for (const img of images) {
                     if (img.alt && img.alt.startsWith("Photo by")) {
-                        sendImageToApi(img.src, "endpoint");
+                        sendImageToApi(img.src);
                         break;
                     }
                 }
             }
         });
     });
+});
+
+
+chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === "deepfakeResult") {
+        const p = document.getElementById("response");
+        if (!p) return;
+
+        const score = message.data.deepfake_score.toFixed(2);
+        p.textContent = message.data.is_fake
+            ? `⚠️ This image looks like a deepfake! Score: ${score}`
+            : `✅ This image looks real. Score: ${score}`;
+    }
+
+    return true;
 });
