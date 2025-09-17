@@ -17,7 +17,7 @@ app.add_middleware(
 
 # Load model (make sure you have pretrained weights in ./weights/mesonet.h5)
 model = MesoNet()
-model.load_weights("weights/Meso4_DF.h5")
+model.load_weights("weights/Meso4_F2F.h5")
 
 def preprocess_image(image_path):
     img = cv2.imread(image_path)

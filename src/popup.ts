@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 for (const img of images) {
                     if (img.alt && img.alt.startsWith("Photo by")) {
+                        console.log(img.alt)
                         sendImageToApi(img.src);
                         break;
                     }
@@ -64,8 +65,8 @@ chrome.runtime.onMessage.addListener((message) => {
 
         const score = message.data.deepfake_score.toFixed(2);
         p.textContent = message.data.is_fake
-            ? `⚠️ This image looks like a deepfake! Score: ${score}`
-            : `✅ This image looks real. Score: ${score}`;
+            ? `⚠️ This image looks like a deepfake!`
+            : `✅ This image looks real.`;
     }
 
     return true;
