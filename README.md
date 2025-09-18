@@ -50,6 +50,8 @@ Future iterations could expand support to:
 Below you will find a short clip of the working demo:
 ![demo video](https://github.com/user-attachments/assets/27408fc2-9741-4649-b360-42a898e2954a)
 
+You can also check out our pitch presentation [here](https://www.canva.com/design/DAGzOJta77g/k9M5sN-MGQwCRtdCsobkcA/view).
+
 ---
 
 ## Getting Started
